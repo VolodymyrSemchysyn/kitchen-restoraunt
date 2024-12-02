@@ -47,7 +47,7 @@ class Dish(models.Model):
     cooks = models.ManyToManyField(Cook, blank=False, related_name="cookers")
 
     def __str__(self):
-        return f"{self.name}, ({self.dish_type}), {self.price}"
+        return f"{self.name}, ({self.dish_type}), {self.cooks}"
 
 class DishIngredient(models.Model):
     dish = models.ForeignKey("Dish", on_delete=models.CASCADE)
