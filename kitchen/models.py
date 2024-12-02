@@ -11,10 +11,9 @@ class DishType(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
-    expire_date = models.DateField(null=False, blank=False)
 
     def __str__(self):
-        return f"{self.name} ({self.expire_date})"
+        return {self.name}
 
 
 class Cook(AbstractUser):
@@ -39,8 +38,24 @@ class Dish(models.Model):
         blank=False,
         related_name="dishes"
     )
-    ingredients = models.ManyToManyField(Ingredient, blank=False, related_name="dishes")
+    ingredients = models.ManyToManyField(
+        Ingredient,
+        through="DishIngredient",
+        blank=False,
+        related_name="dishes"
+    )
     cooks = models.ManyToManyField(Cook, blank=False, related_name="cookers")
 
     def __str__(self):
         return f"{self.name}, ({self.dish_type}), {self.price}"
+
+class DishIngredient(models.Model):
+    dish = models.ForeignKey("Dish", on_delete=models.CASCADE)
+    ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=5, decimal_places=2, null=False, blank=False)
+
+    class Meta:
+        unique_together = ("dish", "ingredient")
+
+    def __str__(self):
+        return f"{self.amount} of {self.ingredient.name} for {self.dish.name}"
