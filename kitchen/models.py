@@ -17,7 +17,7 @@ class Ingredient(models.Model):
 
 
 class Cook(AbstractUser):
-    years_of_experience = models.IntegerField(null=False, blank=False)
+    years_of_experience = models.IntegerField(null=False, blank=False, default=0)
 
     class Meta:
         verbose_name = "cook"
