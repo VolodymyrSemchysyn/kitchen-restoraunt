@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from kitchen.forms import DishNameSearchForm
-from kitchen.models import DishType, Dish, Cook
+from kitchen.models import DishType, Dish, Cook, DishIngredient
 
 
 @login_required
@@ -32,7 +33,7 @@ class DishListView(LoginRequiredMixin,ListView):
         return context
 
     def get_queryset(self):
-        queryset = Dish.objects.select_related("dish_type").prefetch_related("cookers").order_by("name")
+        queryset = Dish.objects.select_related("dish_type").prefetch_related("cooks").order_by("name")
         form = DishNameSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -40,3 +41,23 @@ class DishListView(LoginRequiredMixin,ListView):
 
         return queryset
 
+class DishDetailView(LoginRequiredMixin, DetailView):
+    model = Dish
+
+    def get_queryset(self):
+        dish_ingredients = Prefetch("ingredients_in_dish", queryset=DishIngredient.objects.all())
+
+        return Dish.objects.prefetch_related(
+            "ingredients",
+            "cooks",
+            dish_ingredients
+        ).select_related(
+            "dish_type"
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dish = self.get_object()
+        dish_ingredients = DishIngredient.objects.filter(dish=dish)
+        context["dish_ingredients"] = dish_ingredients
+        return context

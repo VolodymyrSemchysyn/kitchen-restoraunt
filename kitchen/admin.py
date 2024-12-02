@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from kitchen.models import Cook, Dish, Ingredient, DishType
+from kitchen.models import Cook, Dish, Ingredient, DishType, DishIngredient
 
 
 @admin.register(Cook)
@@ -23,5 +23,6 @@ class CookAdmin(UserAdmin):
 
 
 admin.site.register(Dish)
-admin.site.register(Ingredient)
 admin.site.register(DishType)
+admin.site.register(Ingredient)
+admin.site.register(DishIngredient)

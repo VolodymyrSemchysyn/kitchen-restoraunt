@@ -13,7 +13,7 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
 
 class Cook(AbstractUser):
@@ -50,8 +50,8 @@ class Dish(models.Model):
         return f"{self.name}, ({self.dish_type}), {self.cooks}"
 
 class DishIngredient(models.Model):
-    dish = models.ForeignKey("Dish", on_delete=models.CASCADE)
-    ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="ingredients_in_dish")
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=5, decimal_places=2, null=False, blank=False)
 
     class Meta:
