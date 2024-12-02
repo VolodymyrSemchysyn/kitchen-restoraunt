@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Kitchen Master Home</h1>
+  <p>You can manage your dishes here!</p>
+  <h2>Kitchen statistics</h2>
+  <ul>
+    <li><strong>Dishes Types: </strong>{{ total_types }}</li>
+    <li><strong>Total dishes: </strong>{{ total_dishes }}</li>
+    <li><strong>Numbers of cooks: </strong>{{ total_cooks }}</li>
+  </ul>
+{% endblock %}
