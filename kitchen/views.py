@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from kitchen.forms import DishNameSearchForm
 from kitchen.models import DishType, Dish, Cook, DishIngredient
@@ -21,7 +22,7 @@ def index(request):
     return render(request, "kitchen/index.html", context)
 
 
-class DishListView(LoginRequiredMixin,ListView):
+class DishListView(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -40,6 +41,7 @@ class DishListView(LoginRequiredMixin,ListView):
             return queryset.filter(name__icontains=form.cleaned_data["name"])
 
         return queryset
+
 
 class DishDetailView(LoginRequiredMixin, DetailView):
     model = Dish
@@ -61,3 +63,25 @@ class DishDetailView(LoginRequiredMixin, DetailView):
         dish_ingredients = DishIngredient.objects.filter(dish=dish)
         context["dish_ingredients"] = dish_ingredients
         return context
+
+
+class DishCreateView(LoginRequiredMixin, CreateView):
+    model = Dish
+    fields = "__all__"
+    success_url = reverse_lazy("kitchen:dish-list")
+
+
+class DishUpdateView(LoginRequiredMixin, UpdateView):
+    model = Dish
+    fields = "__all__"
+    success_url = reverse_lazy("kitchen:dish-list")
+
+
+class DishDeleteView(LoginRequiredMixin, DeleteView):
+    model = Dish
+    success_url = reverse_lazy("kitchen:dish-list")
+
+class CooksListView(LoginRequiredMixin, ListView):
+    paginate_by = 5
+    model = Cook
+    success_url = reverse_lazy("kitchen:cook-list")

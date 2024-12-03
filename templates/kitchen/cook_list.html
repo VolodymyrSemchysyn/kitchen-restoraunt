@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+    <h1>
+      Cook List
+    </h1>
+    {% if cook_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Years of Experience</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cook in cook_list %}
+        <tr>
+          <td>{{ cook.id }}</td>
+          <td>
+            {{ cook.username }}
+            {% if user == cook %} (Me) {% endif %}
+          </td>
+          <td>{{ cook.first_name }} {{ cook.last_name }}</td>
+          <td>{{ cook.years_of_experience }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>There are no cooks.</p>
+    {% endif %}
+{% endblock %}

@@ -7,7 +7,9 @@
         <button class="btn btn-link" style="padding: 0;" type="submit">logout</button>
       </form>
     </li>
-      <li class="list-group-item"><a href="{% url 'kitchen:dish-list' %}">Dishes</a></li>
+      <li class="list-group-item"><a href="{% url 'kitchen:index' %}">Home</a></li>
+    <li class="list-group-item"><a href="{% url 'kitchen:dish-list' %}"> Tasks</a></li>
+    <li class="list-group-item"><a href="{% url 'kitchen:cook-list' %}">Workers</a></li>
   {% else %}
     <li class="list-group-item"><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
   {% endif %}

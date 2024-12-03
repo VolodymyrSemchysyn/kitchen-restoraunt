@@ -3,6 +3,9 @@
 {% block content %}
   <h1>
     Dish List
+  <a href="{% url 'kitchen:dish-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
   </h1>
     <form action="" method="get" class="form-inline">
         {{ search_form|crispy }}
@@ -15,6 +18,8 @@
         <th>Name</th>
         <th>Dish type</th>
         <th>Cookers</th>
+        <th>Update</th>  
+        <th>Delete</th>
       </tr>
       {% for dish in dish_list %}
         <tr>
@@ -22,13 +27,23 @@
               {{ dish.id }}
           </td>
           <td>
-              {{ dish.name }}
+               <a href="{% url "kitchen:dish-detail" pk=dish.id %}">{{ dish.name }}</a>
           </td>
           <td>
               {{ dish.dish_type }}
           </td>
           <td>
               {{ dish.cooks}}
+          </td>
+          <td>  
+            <a href="{% url 'kitchen:dish-update' pk=task.id %}">
+              Update
+            </a>
+          </td>
+          <td>
+            <a style="color: red" href="{% url 'kitchen:dish-delete' pk=task.id %}">
+              Delete
+            </a>
           </td>
         </tr>
       {% endfor %}
