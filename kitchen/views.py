@@ -1,12 +1,11 @@
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Prefetch
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from kitchen.forms import DishNameSearchForm, DishForm
+from kitchen.forms import DishNameSearchForm, DishForm, RegisterForm
 from kitchen.models import DishType, Dish, Cook
 
 
@@ -85,3 +84,15 @@ class CooksListView(LoginRequiredMixin, ListView):
     paginate_by = 5
     model = Cook
     success_url = reverse_lazy("kitchen:cook-list")
+
+
+class RegisterView(CreateView):
+    model = Cook
+    form_class = RegisterForm
+    template_name = "kitchen/register.html"
+    success_url = reverse_lazy("index")
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect(self.success_url)
