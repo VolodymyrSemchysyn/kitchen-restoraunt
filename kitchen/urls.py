@@ -25,17 +25,17 @@ urlpatterns = [
     path(
         "dishes/create/",
         DishCreateView.as_view(),
-        name="task-create",
+        name="dish-create",
     ),
     path(
         "dishes/<int:pk>/update/",
         DishUpdateView.as_view(),
-        name="task-update",
+        name="dish-update",
     ),
     path(
         "dishes/<int:pk>/delete/",
         DishDeleteView.as_view(),
-        name="task-delete",
+        name="dish-delete",
     ),
     path(
         "cooks/",

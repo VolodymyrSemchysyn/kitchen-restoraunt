@@ -40,22 +40,15 @@ class Dish(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        through="DishIngredient",
         blank=False,
         related_name="dishes"
     )
-    cooks = models.ManyToManyField(Cook, blank=False, related_name="cookers")
+    cooks = models.ManyToManyField(
+        Cook,
+        blank=False,
+        related_name="cookers"
+    )
 
     def __str__(self):
         return f"{self.name}, ({self.dish_type}), {self.cooks}"
 
-class DishIngredient(models.Model):
-    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="ingredients_in_dish")
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=5, decimal_places=2, null=False, blank=False)
-
-    class Meta:
-        unique_together = ("dish", "ingredient")
-
-    def __str__(self):
-        return f"{self.amount} of {self.ingredient.name} for {self.dish.name}"

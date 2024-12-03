@@ -2,31 +2,23 @@
 
 {% block content %}
   <h1>{{ dish.name }}</h1>
-    <a href="{% url 'kitchen:dish-delete' pk=task.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
-    <a href="{% url 'kitchen:dish-update' pk=task.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  <p><b>Description:</b> {{ dish.description }}</p>
-  <p><b>Price:</b> {{ dish.price }}</p>
 
-  <!-- Відображаємо тип страви -->
-  <p><b>Dish Type:</b> {{ dish.dish_type.name }}</p>
+  <p><strong>Type:</strong> {{ dish.dish_type }}</p>
+  <p><strong>Price:</strong> {{ dish.price }} UAH</p>
+  <p><strong>Description:</strong> {{ dish.description }}</p>
+  
+  <h3>Ingredients:</h3>
+  <ul>
+    {% for ingredient in dish_ingredients %}
+      <li>{{ ingredient.name }}</li>
+    {% endfor %}
+  </ul>
 
-  <!-- Відображаємо всіх кухарів -->
-  <p><b>Cooks:</b></p>
+  <h3>Assigned Cooks:</h3>
   <ul>
     {% for cook in dish.cooks.all %}
-      <li>{{ cook.username }} ({{ cook.first_name }} {{ cook.last_name }}, {{ cook.years_of_experience }} years of experience)</li>
+      <li>{{ cook.username }}</li>
     {% endfor %}
   </ul>
 
-  <!-- Відображаємо інгредієнти та їх кількість -->
-  <p><b>Ingredients:</b></p>
-  <ul>
-    {% for dish_ingredient in dish_ingredients %}
-      <li>{{ dish_ingredient.ingredient.name }}: {{ dish_ingredient.amount }} units</li>
-    {% endfor %}
-  </ul>
 {% endblock %}

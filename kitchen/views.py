@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from kitchen.forms import DishNameSearchForm
-from kitchen.models import DishType, Dish, Cook, DishIngredient
+from kitchen.forms import DishNameSearchForm, DishForm
+from kitchen.models import DishType, Dish, Cook
 
 
 @login_required
@@ -47,12 +48,9 @@ class DishDetailView(LoginRequiredMixin, DetailView):
     model = Dish
 
     def get_queryset(self):
-        dish_ingredients = Prefetch("ingredients_in_dish", queryset=DishIngredient.objects.all())
-
         return Dish.objects.prefetch_related(
             "ingredients",
-            "cooks",
-            dish_ingredients
+            "cooks"
         ).select_related(
             "dish_type"
         )
@@ -60,20 +58,22 @@ class DishDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         dish = self.get_object()
-        dish_ingredients = DishIngredient.objects.filter(dish=dish)
+
+        dish_ingredients = dish.ingredients.all()
+
         context["dish_ingredients"] = dish_ingredients
         return context
 
 
-class DishCreateView(LoginRequiredMixin, CreateView):
+class DishCreateView(CreateView):
     model = Dish
-    fields = "__all__"
-    success_url = reverse_lazy("kitchen:dish-list")
+    form_class = DishForm
+    success_url = "/dishes/"
 
 
 class DishUpdateView(LoginRequiredMixin, UpdateView):
     model = Dish
-    fields = "__all__"
+    form_class = DishForm
     success_url = reverse_lazy("kitchen:dish-list")
 
 
