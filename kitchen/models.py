@@ -19,9 +19,10 @@ class Ingredient(models.Model):
 class Cook(AbstractUser):
     years_of_experience = models.IntegerField(null=False, blank=False, default=0)
 
+
     class Meta:
         verbose_name = "cook"
-        verbose_name_plural = "cookers"
+        verbose_name_plural = "cooks"
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name} {self.years_of_experience})"
@@ -46,7 +47,7 @@ class Dish(models.Model):
     cooks = models.ManyToManyField(
         Cook,
         blank=False,
-        related_name="cookers"
+        related_name="dishes"
     )
 
     def __str__(self):
