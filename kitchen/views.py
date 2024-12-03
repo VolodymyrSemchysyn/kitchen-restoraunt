@@ -90,7 +90,7 @@ class RegisterView(CreateView):
     model = Cook
     form_class = RegisterForm
     template_name = "kitchen/register.html"
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("kitchen:index")
 
     def form_valid(self, form):
         user = form.save()
