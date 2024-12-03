@@ -1,24 +1,92 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1>{{ dish.name }}</h1>
-
-  <p><strong>Type:</strong> {{ dish.dish_type }}</p>
-  <p><strong>Price:</strong> {{ dish.price }} UAH</p>
-  <p><strong>Description:</strong> {{ dish.description }}</p>
-  
-  <h3>Ingredients:</h3>
-  <ul>
-    {% for ingredient in dish_ingredients %}
-      <li>{{ ingredient.name }}</li>
-    {% endfor %}
-  </ul>
-
-  <h3>Assigned Cooks:</h3>
-  <ul>
-    {% for cook in dish.cooks.all %}
-      <li>{{ cook.username }}</li>
-    {% endfor %}
-  </ul>
-
-{% endblock %}
+  <div class="py-4 row">
+    <div class="col-12 col-xl-8">
+      <div class="card card-body border-0 shadow mb-4 mb-xl-0">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-1">
+          <h2 class="h4 mb-4">{{ dish.id }}. {{ dish.name }}</h2>
+          <div>
+            <a class="btn btn-primary" href="{% url 'kitchen:dish-update' pk=dish.id %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+                   viewBox="0 0 16 16">
+                <path
+                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"></path>
+              </svg>
+            </a>
+            <a class="btn btn-outline-danger " href="{% url 'kitchen:dish-delete' pk=dish.id %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                   viewBox="0 0 16 16">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                <path
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex align-items-center justify-content-between px-0 border-bottom">
+            <div>
+              <h2 class="h5 mb-1">Description:</h2>
+              <p class="small pe-4">{{ dish.description }}</p>
+            </div>
+          </li>
+          <li class="list-group-item d-flex align-items-center justify-content-between px-0">
+            <div>
+              <h4 class="h6 mb-1">Assigned Cooks:</h4>
+              {% for cook in dish.cooks.all %}
+                <p class="small pe-4">{{ cook.first_name }} {{ cook.last_name }} ({{ cook.username }})</p>
+              {% endfor %}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-12 col-xl-4">
+      <div class="card border-0 shadow">
+        <div class="card-body">
+{#          <div class="d-flex align-items-center justify-content-between pt-3">#}
+{#            <div>#}
+{#              <div class="h6 mb-0 d-flex align-items-center">#}
+{#                Priority:#}
+{#              </div>#}
+{#              <div class="small card-stats">#}
+{#                {{ dish.get_priority_display }}#}
+{#                <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20"#}
+{#                     xmlns="http://www.w3.org/2000/svg">#}
+{#                  <path fill-rule="evenodd"#}
+{#                        d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"#}
+{#                        clip-rule="evenodd"></path>#}
+{#                </svg>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+          <div class="d-flex align-items-center justify-content-between pt-3">
+            <div>
+              <div class="h6 mb-0 d-flex align-items-center">
+                Type:
+              </div>
+              <div class="small card-stats">
+                {{ dish.dish_type }}
+              </div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between pt-3">
+            <div>
+              <div class="h6 mb-0 d-flex align-items-center">
+                Ingredients:
+              </div>
+              {% for ingredient in dish_ingredients %}
+                <div class="small card-stats">
+                    {{ ingredient.name }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
