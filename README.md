@@ -1,6 +1,6 @@
 # kitchen-restaurant" 
 Kitchen-restaurant - is a program that helps cookers manage their dishes. It allows you to create a dish,
-choose incidences, dish type, set price. 
+choose ingridiences, dish type, set price. 
 
 ## Check it out!
 
