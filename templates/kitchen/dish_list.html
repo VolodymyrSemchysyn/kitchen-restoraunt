@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+      <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+          <li class="breadcrumb-item">
+            <a href="{% url 'kitchen:index' %}">
+              <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                </path>
+              </svg>
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Dishes</li>
+        </ol>
+      </nav>
+      <h2 class="h4">Dishes</h2>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <a href="{% url 'kitchen:dish-create' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        New Dish
+      </a>
+    </div>
+  </div>
+  <div class="table-settings mb-4">
+    <form id="dish-search-form" action="" method="get" class="form-inline">
+      <div class="row align-items-center justify-content-between">
+
+        <div class="col col-md-6 col-lg-4 col-xl-4">
+          <div class="input-group me-2 me-lg-3 fmxw-400">
+          <span class="input-group-text">
+            <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"></path>
+            </svg>
+          </span>
+{#            <input name="assignee" type="text" class="form-control" placeholder="Search by assignee"#}
+{#                   value="{{ search_form.assignee.value }}">#}
+          </div>
+        </div>
+        <div class="col">
+{#          <div class="form-check">#}
+{#            <input name="include_completed" class="form-check-input" type="checkbox"#}
+{#                   onclick="this.form.submit();"#}
+{#                {% if search_form.include_completed.value %} checked {% endif %}>#}
+{#            <label class="form-check-label" for="defaultCheck10">#}
+{#              Include completed#}
+{#            </label>#}
+{#          </div>#}
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th class="border-gray-200">ID</th>
+        <th class="border-gray-200">Name</th>
+        <th class="border-gray-200">Dish Type</th>
+        <th class="border-gray-200">Cookers</th>
+        <th class="border-gray-200">Update</th>
+        <th class="border-gray-200">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for dish in dish_list %}
+        <tr>
+          <td>
+            {{ dish.id }}
+          </td>
+          <td>
+            <a href="{% url "kitchen:dish-detail" pk=dish.id %}"><b>{{ dish.name }}</b></a>
+          </td>
+          <td>
+            {{ dish.dish_type }}
+          </td>
+          <td>
+            {{ dish.cooks.count }}
+          </td>
+          <td>
+            <a style="color: #37ff00" href="{% url 'kitchen:dish-update' pk=dish.id %}">
+              Update
+            </a>
+          </td>  
+          <td>
+            <a style="color: red" href="{% url 'kitchen:dish-delete' pk=dish.id %}">
+              Delete
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% load crispy_forms_filters %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Dish Manager</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'images/login-image.jpg' %});">
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+        <h1 class="h1 text-white">Dish Manager</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="login-wrap p-0">
+          <h3 class="mb-4 text-center">Sign in</h3>
+          <form method="post" class="signin-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-group">
+              <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+            </div>
+          </form>
+            <a href="{% url 'kitchen:register' %}" ><button class="form-control btn btn-primary submit px-3"> Sign Up</button></a>  
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{% static 'js/login.js' %}"></script>
+
+</body>
+</html>
