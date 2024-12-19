@@ -45,7 +45,7 @@
           {% if user.is_authenticated %}
             <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
             <div role="separator" class="dropdown-divider my-1"></div>
-            <form method="post" action="{% url 'logout' %}?next={{ request.path }}">
+            <form method="post" action="{% url 'accounts:logout' %}?next={{ request.path }}">
               {% csrf_token %}
               <button class="dropdown-item d-flex align-items-center" type="submit">
                 <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"

@@ -13,7 +13,7 @@ class ModelsTest(TestCase):
             password="testpassword123",
             first_name="Anna",
             last_name="Smith",
-            years_of_experience=5
+            years_of_experience=5,
         )
         self.dish = Dish.objects.create(
             name="Grilled Chicken",
@@ -32,21 +32,8 @@ class ModelsTest(TestCase):
         ingredient = self.ingredient
         self.assertEqual(str(ingredient), ingredient.name)
 
-    def test_cook_str(self) -> None:
-        cook = self.cook
-        self.assertEqual(
-            str(cook),
-            f"{cook.username} "
-            f"({cook.first_name} "
-            f"{cook.last_name} "
-            f"{cook.years_of_experience})"
-        )
-
     def test_dish_str(self) -> None:
         dish = self.dish
         self.assertEqual(
-            str(dish),
-            f"{dish.name}, "
-            f"({dish.dish_type}), "
-            f"{dish.cooks.all()}"
+            str(dish), f"{dish.name}, " f"({dish.dish_type}), " f"{dish.cooks.all()}"
         )

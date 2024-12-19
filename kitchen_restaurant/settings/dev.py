@@ -1,5 +1,5 @@
 # SECURITY WARNING: don't run with debug turned on in production!
-from base import *
+from kitchen_restaurant.settings.base import *
 
 DEBUG = True
 
