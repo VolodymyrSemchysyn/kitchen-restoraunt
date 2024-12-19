@@ -15,6 +15,7 @@ from kitchen.models import DishType, Dish, Cook
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = "kitchen/index.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(

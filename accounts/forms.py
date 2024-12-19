@@ -30,18 +30,10 @@ class RegisterForm(UserCreationForm):
         self.fields["email"].widget.attrs["class"] = "form-control"
         self.fields["password1"].widget.attrs["class"] = "form-control"
         self.fields["password2"].widget.attrs["class"] = "form-control"
-        self.fields[
-            "years_of_experience"
-        ].widget.attrs[
-            "class"
-        ] = "form-control"
+        self.fields["years_of_experience"].widget.attrs["class"] = "form-control"
 
     def clean_years_of_experience(self):
-        years_of_experience = self.cleaned_data.get(
-            "years_of_experience"
-        )
+        years_of_experience = self.cleaned_data.get("years_of_experience")
         if years_of_experience < 0:
-            raise forms.ValidationError(
-                "Years of experience cannot be negative."
-            )
+            raise forms.ValidationError("Years of experience cannot be negative.")
         return years_of_experience

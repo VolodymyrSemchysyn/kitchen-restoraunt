@@ -3,6 +3,8 @@ from unittest import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
+from accounts.forms import RegisterForm
+
 COOK_LIST_URL = reverse("accounts:cook-list")
 
 
@@ -68,3 +70,60 @@ class PrivateCookViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context["cook_list"]), 5)
         self.assertTrue(response.context["is_paginated"])
+
+
+class RegisterFormTest(TestCase):
+    def test_valid_form(self):
+        data = {
+            "username": "chef_petro",
+            "password1": "securepassword123",
+            "password2": "securepassword123",
+            "first_name": "Petro",
+            "last_name": "MC",
+            "email": "petro.@gmail.com",
+            "years_of_experience": 3,
+        }
+        form = RegisterForm(data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_password_mismatch(self):
+        data = {
+            "username": "chef_petro",
+            "password1": "securepassword123",
+            "password2": "wrongpassword",
+            "first_name": "Petro",
+            "last_name": "MC",
+            "email": "petro.@gmail.com",
+            "years_of_experience": 3,
+        }
+        form = RegisterForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("password2", form.errors)
+
+    def test_invalid_email(self):
+        data = {
+            "username": "chef_petro",
+            "password1": "securepassword123",
+            "password2": "securepassword123",
+            "first_name": "Petro",
+            "last_name": "MC",
+            "email": "invalidemail",
+            "years_of_experience": 3,
+        }
+        form = RegisterForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("email", form.errors)
+
+    def test_invalid_years_of_experience(self):
+        data = {
+            "username": "chef_petro",
+            "password1": "securepassword123",
+            "password2": "securepassword123",
+            "first_name": "Petro",
+            "last_name": "MC",
+            "email": "petro.@gmail.com",
+            "years_of_experience": -1,
+        }
+        form = RegisterForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("years_of_experience", form.errors)

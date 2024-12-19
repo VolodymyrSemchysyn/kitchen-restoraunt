@@ -62,7 +62,9 @@ class PrivateDishViewTest(TestCase):
             "ingredients": [self.ingredient.id],
             "cooks": [self.cook.id],
         }
-        response = self.client.post(reverse("kitchen:dish-update", args=[self.dish.id]), data)
+        response = self.client.post(
+            reverse("kitchen:dish-update", args=[self.dish.id]), data
+        )
         self.assertEqual(response.status_code, 302)
         updated_dish = Dish.objects.get(id=self.dish.id)
         self.assertEqual(updated_dish.name, "Updated Chicken")
