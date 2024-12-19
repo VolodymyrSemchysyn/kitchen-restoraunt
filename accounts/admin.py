@@ -21,6 +21,7 @@ class CookAdmin(UserAdmin):
         ),
     )
 
+
 admin.site.register(Dish)
 admin.site.register(DishType)
 admin.site.register(Ingredient)
